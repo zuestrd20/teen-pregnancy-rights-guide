@@ -1,0 +1,80 @@
+{
+  "title": "臺灣15–19歲女性生育率",
+  "metric": "age_specific_live_birth_rate",
+  "ageMin": 15,
+  "ageMax": 19,
+  "unit": "每1,000名同齡女性的活產數（‰）",
+  "numerator": "官方15–19歲組活產數（含未滿15歲生母所生嬰兒）",
+  "denominator": "同年15–19歲女性年中人口數",
+  "periodBasis": "曆年；按發生日期",
+  "sourceAgency": "內政部戶政司",
+  "sourceLandingUrl": "https://www.moi.gov.tw/cl.aspx?n=15370",
+  "sourceDownloadUrl": "https://ws.moi.gov.tw/Download.ashx?icon=..ods&n=cHMwMS0xNC5vZHM%3D&u=LzAwMS9VcGxvYWQvNDAwL3JlbGZpbGUvMC8zOTc2LzY5ZTMyMzFmLWYyZDEtNDc4ZS04ZDFlLTI2NThlZjk5MjMwYS5vZHM%3D",
+  "sourceUpdated": "2026-06-10",
+  "verifiedAt": "2026-10-05",
+  "precisionNote": "保留官方整數發布精度，不補小數；數值相同不代表未四捨五入數值完全相同。",
+  "data": [
+    {
+      "year": 2016,
+      "rocYear": 105,
+      "value": 4,
+      "status": "published"
+    },
+    {
+      "year": 2017,
+      "rocYear": 106,
+      "value": 4,
+      "status": "published"
+    },
+    {
+      "year": 2018,
+      "rocYear": 107,
+      "value": 4,
+      "status": "published"
+    },
+    {
+      "year": 2019,
+      "rocYear": 108,
+      "value": 4,
+      "status": "published"
+    },
+    {
+      "year": 2020,
+      "rocYear": 109,
+      "value": 4,
+      "status": "published"
+    },
+    {
+      "year": 2021,
+      "rocYear": 110,
+      "value": 3,
+      "status": "published"
+    },
+    {
+      "year": 2022,
+      "rocYear": 111,
+      "value": 3,
+      "status": "published"
+    },
+    {
+      "year": 2023,
+      "rocYear": 112,
+      "value": 3,
+      "status": "published"
+    },
+    {
+      "year": 2024,
+      "rocYear": 113,
+      "value": 3,
+      "status": "published"
+    },
+    {
+      "year": 2025,
+      "rocYear": 114,
+      "value": 2,
+      "status": "published"
+    }
+  ],
+  "methodNote": "依113年人口統計年刊說明，未滿15歲生母所生嬰兒併入15–19歲組；分母仍為15–19歲女性年中人口。生母年齡未詳數按比例分配至年齡組。",
+  "methodSource": "https://www.ris.gov.tw/documents/data/5/2/Demographic_Fact_Book_113.pdf"
+}

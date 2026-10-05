@@ -4,22 +4,25 @@ const $$ = (s) => [...document.querySelectorAll(s)];
 let chartMode = "bar";
 function drawChart(mode) {
   chartMode = mode;
-  const w = 740, h = 310, left = 49, right = 26, top = 30, bottom = 49;
+  const w = Math.max(300, Math.min(740, $('#chart').clientWidth || 740));
+  const narrow = w < 500, h = narrow ? 340 : 310, left = 35, right = 15, top = 30, bottom = narrow ? 72 : 49;
   const cw = w-left-right, ch = h-top-bottom, max = 5;
   const x = (i) => left + cw * (i+.5)/birthRateData.length;
   const y = (v) => top + ch*(1-v/max);
+  const barWidth = Math.min(36, cw / birthRateData.length * .55);
   let svg = `<svg viewBox="0 0 ${w} ${h}" role="img" aria-labelledby="chart-heading chart-description"><title id="chart-heading">2016至2025年15至19歲女性生育率${mode==='bar'?'長條圖':'折線圖'}</title><desc id="chart-description">單位為每千名15至19歲女性人口對應的官方該組活產數；活產分子含未滿15歲生母所生嬰兒。2016至2020年各4，2021至2024年各3，2025年2。資料取自內政部官方整數精度，非未成年懷孕比例。</desc>`;
   for(let v=0;v<=max;v++) svg += `<line x1="${left}" x2="${w-right}" y1="${y(v)}" y2="${y(v)}" stroke="#d4dfed"/><text x="${left-12}" y="${y(v)+5}" text-anchor="end" font-size="15" fill="#52627b">${v}</text>`;
   if(mode==='line') svg+=`<polyline points="${birthRateData.map((d,i)=>`${x(i)},${y(d.value)}`).join(' ')}" fill="none" stroke="#194dbe" stroke-width="3"/>`;
   birthRateData.forEach((d,i)=>{
-    svg+=mode==='bar'?`<rect x="${x(i)-18}" y="${y(d.value)}" width="36" height="${y(0)-y(d.value)}" rx="4" fill="${i===9?'#142b52':'#366bca'}"><title>${d.year}年：${d.value}‰</title></rect>`:`<circle cx="${x(i)}" cy="${y(d.value)}" r="6" fill="#194dbe"><title>${d.year}年：${d.value}‰</title></circle>`;
-    svg+=`<text x="${x(i)}" y="${y(d.value)-13}" text-anchor="middle" font-size="17" font-weight="700" fill="#172c49">${d.value}</text><text x="${x(i)}" y="${h-21}" text-anchor="middle" font-size="14" fill="#52627b">${d.year}</text>`;
+    svg+=mode==='bar'?`<rect x="${x(i)-barWidth/2}" y="${y(d.value)}" width="${barWidth}" height="${y(0)-y(d.value)}" rx="4" fill="${i===9?'#142b52':'#366bca'}"><title>${d.year}年：${d.value}‰</title></rect>`:`<circle cx="${x(i)}" cy="${y(d.value)}" r="6" fill="#194dbe"><title>${d.year}年：${d.value}‰</title></circle>`;
+    svg+=`<text x="${x(i)}" y="${y(d.value)-13}" text-anchor="middle" font-size="${narrow?14:17}" font-weight="700" fill="#172c49">${d.value}</text><text x="${x(i)}" y="${h-(narrow?48:21)}" text-anchor="${narrow?'end':'middle'}" transform="${narrow?`rotate(-50 ${x(i)} ${h-48})`:''}" font-size="${narrow?12:14}" fill="#52627b">${d.year}</text>`;
   });
   $("#chart").innerHTML=svg+'</svg>';
   $$('[data-chart]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.chart===mode)));
 }
 $$('[data-chart]').forEach(b=>b.addEventListener('click',()=>drawChart(b.dataset.chart)));
 drawChart(chartMode);
+window.addEventListener('resize',()=>drawChart(chartMode));
 const scenarios=[
  {tag:'01 / 數據判讀',question:'看到「2025年15–19歲女性生育率2‰」，哪個解讀最恰當？',choices:['全台未滿18歲學生，有2%曾經懷孕。','這是每千名同齡女性的活產指標，不能直接當作未滿18歲懷孕比例。','出生數下降，就能確定所有未成年懷孕都下降。'],answer:1,explain:'2‰是千分之二，分母是同齡女性年中人口，不是所有學生。活產與懷孕是不同指標；15–19歲口徑包含18、19歲，官方活產分子另併入未滿15歲生母所生嬰兒。',source:'#data',link:'再看一次資料定義'},
  {tag:'02 / 學校支持',question:'虛構情境：一名17歲學生懷孕，擔心學校要她退學。朋友可以怎麼回應？',choices:['先休學吧，懷孕的人本來就不能上課。','把她的事傳到班群，讓大家一起評斷。','懷孕不會讓妳失去受教權。我們可以一起詢問輔導室的支持和保密規則。'],answer:2,explain:'學校不得因懷孕歧視，或明示暗示學生休學、退學。可以討論彈性請假、評量及就學支持，也要尊重當事人隱私。',source:'#source-6',link:'核對教育部受教權要點'},
